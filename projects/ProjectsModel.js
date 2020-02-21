@@ -1,9 +1,18 @@
 const projectsDB = require('../data/db-config.js');
 
 module.exports = {
-  find
+  getAllProjects,
+  addProject
 }
 
-function find() {
-  return projectsDB(projects);
+function getAllProjects() {
+  return projectsDB('projects');
+}
+
+function addProject(project) {
+  return projectsDB('projects')
+    .insert(project)
+    .then(project => {
+      return project;
+    })
 }
