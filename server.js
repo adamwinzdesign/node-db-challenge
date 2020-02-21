@@ -9,7 +9,7 @@ const server = express();
 
 server.use(express.json());
 
-server.use('/api/projects', ProjectsRouter);
+server.use('/projects', ProjectsRouter);
 
 server.get('/', (req, res) => {
   res.send(`
