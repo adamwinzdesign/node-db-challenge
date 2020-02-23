@@ -7,7 +7,8 @@ module.exports = {
   addResource,
   getAllTasks,
   addTask,
-  updateProjectTask
+  updateProjectTask,
+  getAllTasksByProjectID
 }
 
 function getAllProjects() {
@@ -51,5 +52,23 @@ function updateProjectTask(project_id, task_id) {
     .insert({ project_id, task_id })
     .then(project_task => {
       console.log(project_task);
+    })
+}
+
+function getAllTasksByProjectID(id) {
+  return projectsDB('tasks')
+    .select(
+      'projects.name',
+      'projects.description',
+      'tasks.description',
+      'tasks.notes',
+      'tasks.completed'
+    )
+    .join('projects', 'tasks.project_id', 'projects.id')
+    .where({ 'projects.id': id })
+    .then(tasks => {
+      return tasks.map(task => {
+        return {...task, completed: Boolean(task.completed)}
+      })
     })
 }

@@ -102,4 +102,20 @@ router.post('/:id/tasks', (req, res) => {
   }
 })
 
+// get all tasks by project id
+router.get('/:id/tasks', (req, res) => {
+  const id = req.params.id;
+  Projects.getAllTasksByProjectID(id)
+    .then(task => {
+      if(task) {
+        res.status(200).json(task)
+      } else {
+        res.status(404).json({ errorMessage: 'Error getting all tasks with that project id' })
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ errorMessage: 'Could not get tasks', error })
+    })
+})
+
 module.exports = router;
